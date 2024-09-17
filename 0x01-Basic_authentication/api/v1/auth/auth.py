@@ -10,9 +10,8 @@ class Auth:
         """ require suth method """
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
-        for paths in excluded_paths:
-            if paths.endswith('*') and path.startswith(paths[:-1]):
-                return False
+        if path in excluded_paths:
+            return False
         return True
 
     def authorization_header(self, request=None) -> str:
