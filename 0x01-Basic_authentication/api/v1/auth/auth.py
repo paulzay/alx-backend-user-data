@@ -8,10 +8,11 @@ class Auth:
     """ class definition"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ require suth method """
-        if path is None or excluded_paths is None or len(excluded_paths) == 0:
+        if path is None or excluded_paths is None or excluded_paths == []:
             return True
-        if path in excluded_paths:
-            return False
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*') and path.startswith(excluded_path[:-1]):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
