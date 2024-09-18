@@ -45,10 +45,10 @@ def forbidden(error) -> str:
 @app.before_request
 def before_request():
     """ request filters """
+    paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
     if auth is None:
         return
-    if not auth.require_auth(request.path, [
-        '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']):
+    if not auth.require_auth(request.path, paths):
         return
     if auth.authorization_header(request) is None:
         abort(401)
