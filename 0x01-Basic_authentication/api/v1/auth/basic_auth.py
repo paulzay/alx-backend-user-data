@@ -8,15 +8,19 @@ from typing import TypeVar
 
 class BasicAuth(Auth):
     """ class definition """
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         """ extract header auth"""
-        if authorization_header is None or type(authorization_header) is not str:
+        if authorization_header is None or type(authorization_header
+                                                ) is not str:
             return None
         if not authorization_header.startswith("Basic "):
             return None
         return authorization_header[6:]
 
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header: str
+                                           ) -> str:
         """ decode auth header """
         if base64_authorization_header is None:
             return None
@@ -26,7 +30,9 @@ class BasicAuth(Auth):
             return None
         return base64.decode(base64_authorization_header, 'utf-8')
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str):
+    def extract_user_credentials(self,
+                                 decoded_base64_authorization_header: str
+                                 ) -> (str, str):
         """ extract email and password"""
         if decoded_base64_authorization_header is None:
             return None
@@ -36,7 +42,9 @@ class BasicAuth(Auth):
             return (None, None)
         return tuple(decoded_base64_authorization_header.split(':', 1))
 
-    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+    def user_object_from_credentials(self,
+                                     user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
         """ get user object """
         pass
 
