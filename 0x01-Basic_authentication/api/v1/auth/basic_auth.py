@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Basic Auth class
+Basic Auth class definition
 """
+
 from api.v1.auth import Auth
 import base64
 import re
