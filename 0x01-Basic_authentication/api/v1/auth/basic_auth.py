@@ -13,3 +13,4 @@ class BasicAuth(Auth):
     """
     class definition for Baic Auth
     """
+    pass
