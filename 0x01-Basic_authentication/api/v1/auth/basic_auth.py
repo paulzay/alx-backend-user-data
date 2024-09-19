@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Basic Auth"""
+""" Basic Auth class"""
 from api.v1.auth import Auth
 import base64
 import re
@@ -7,10 +7,10 @@ from typing import TypeVar
 
 
 class BasicAuth(Auth):
-    """ class definition """
+    """ class definition for Baic Auth """
     def extract_base64_authorization_header(self,
                                             authorization_header: str) -> str:
-        """ extract header auth"""
+        """ extract header authorization"""
         if authorization_header is None or type(authorization_header
                                                 ) is not str:
             return None
@@ -21,7 +21,7 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(self,
                                            base64_authorization_header: str
                                            ) -> str:
-        """ decode auth header """
+        """ decode authorization header """
         if base64_authorization_header is None:
             return None
         if type(base64_authorization_header) is not str:
@@ -33,7 +33,7 @@ class BasicAuth(Auth):
     def extract_user_credentials(self,
                                  decoded_base64_authorization_header: str
                                  ) -> (str, str):
-        """ extract email and password"""
+        """ extract email and password from header"""
         if decoded_base64_authorization_header is None:
             return None
         if type(decoded_base64_authorization_header) is not str:
@@ -45,7 +45,7 @@ class BasicAuth(Auth):
     def user_object_from_credentials(self,
                                      user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
-        """ get user object """
+        """ get user object from credentials"""
         pass
 
     def current_user(self, request=None) -> TypeVar('User'):
@@ -54,6 +54,6 @@ class BasicAuth(Auth):
 
 
 def is_valid_base64(s):
-    """ valid base64 checker"""
+    """ valid base64 checker """
     pattern = r'^[A-Za-z0-9+/]*[=]{0,2}$'
     return bool(re.match(pattern, s)) and len(s) % 4 == 0
