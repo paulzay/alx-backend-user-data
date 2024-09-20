@@ -71,14 +71,17 @@ class BasicAuth(Auth):
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
         """ user object from credentials """
-        if user_email is None or not isinstance(
-            user_email, str) or user_pwd is None or not isinstance(
-                user_pwd, str):
+        if user_email is None or not isinstance(user_email, str):
+            return None
+        if user_pwd is None or not isinstance(user_pwd, str):
             return None
         try:
-            user = User.search({'email': user_email})
+            users = User.search({"email": user_email})
+            if not users or users == []:
+                return None
+            for u in users:
+                if u.is_valid_password(user_pwd):
+                    return u
+            return None
         except Exception:
             return None
-        if user is None or not user.is_valid_password(user_pwd):
-            return None
-        return user
