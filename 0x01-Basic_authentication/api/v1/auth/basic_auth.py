@@ -58,24 +58,6 @@ class BasicAuth(Auth):
             return None
         return user
 
-    def current_user(self, request=None) -> TypeVar('User'):
-        """ current user method """
-        auth_header = self.authorization_header(request)
-        if auth_header is None:
-            return None
-        extract_base64 = self.extract_base64_authorization_header(auth_header)
-        if extract_base64 is None:
-            return None
-        decode_base64 = self.decode_base64_authorization_header(extract_base64)
-        if decode_base64 is None:
-            return None
-        user_credentials = self.extract_user_credentials(decode_base64)
-        if user_credentials is None:
-            return None
-        user_object = self.user_object_from_credentials(
-            user_credentials[0], user_credentials[1])
-        return user_object
-
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
         """ user object from credentials """
@@ -93,3 +75,21 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """ current user """
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+        b64_header = self.extract_base64_authorization_header(auth_header)
+        if b64_header is None:
+            return None
+        decoded_header = self.decode_base64_authorization_header(b64_header)
+        if decoded_header is None:
+            return None
+        user_credentials = self.extract_user_credentials(decoded_header)
+        if user_credentials is None:
+            return None
+        user = self.user_object_from_credentials(user_credentials[0],
+                                                 user_credentials[1])
+        return user
