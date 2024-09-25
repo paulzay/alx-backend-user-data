@@ -38,3 +38,14 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **args) -> User:
+        """Find a user by"""
+        return self._session.query(User).filter_by(**args).one()
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update a user"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            setattr(user, key, value)
+        self._session.commit()
