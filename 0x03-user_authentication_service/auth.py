@@ -13,6 +13,8 @@ class Auth:
         self._db = DB()
     
     def register_user(self, email: str, password: str):
+        """Register a user
+        """
         user = self._db.find_user_by(email=email)
         if user is not None:
             raise ValueError('User emsil already exists')
