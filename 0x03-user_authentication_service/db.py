@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
+from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
 from user import Base
 from user import User
 
@@ -41,7 +41,12 @@ class DB:
 
     def find_user_by(self, **args) -> User:
         """Find a user by"""
-        return self._session.query(User).filter_by(**args).one()
+        if not args:
+            raise InvalidRequestError
+        user = self._session.query(User).filter_by(**args).one()
+        if user is None:
+            raise NoResultFound
+        return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user"""
