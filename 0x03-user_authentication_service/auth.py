@@ -4,6 +4,7 @@
 import bcrypt
 from db import DB
 
+
 def _hash_password(password: str) -> str:
     """Hash password
     """
