@@ -13,8 +13,7 @@ def _hash_password(password: str) -> str:
 
 
 def _generate_uuid() -> str:
-    """Generate a UUID
-    """
+    """Generate a new UUID"""
     return str(uuid.uuid4())
 
 
@@ -30,7 +29,7 @@ class Auth:
         """
         user = self._db.find_user_by(email=email)
         if user is not None:
-            raise ValueError('User emsil already exists')
+            raise ValueError(f'User email {email} already exists')
         else:
             return self._db.add_user(email=email, hashed_password=password)
 
