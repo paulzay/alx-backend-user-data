@@ -14,6 +14,7 @@ class Auth:
     """Auth class to interact with the authentication database.
     """
     def __init__(self):
+        """ initialize db"""
         self._db = DB()
     
     def register_user(self, email: str, password: str):
@@ -74,9 +75,3 @@ class Auth:
             raise ValueError
         self._db.update_user(user.id, hashed_password=new_password, reset_token=None)
         return None
-    
-    def __repr__(self):
-        return 'Auth()'
-    
-    def __str__(self):
-        return 'Auth()'
