@@ -44,7 +44,7 @@ class DB:
             return self._session.query(User).filter_by(**kwargs).one()
         except NoResultFound:
             return None
-        
+
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user"""
         user = self.find_user_by(id=user_id)
