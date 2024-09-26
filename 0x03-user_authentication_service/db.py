@@ -32,30 +32,8 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """Add a new user to the database
-        """
+        """Add a new user to the database and return the user"""
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
         self._session.commit()
         return new_user
-
-    def find_user_by(self, **kwargs) -> User:
-        """Find a user by"""
-        fields = ["id", "email", "hashed_password",
-                  "session_id", "reset_token"]
-
-        if not kwargs or any(
-            arg not in fields for arg in kwargs
-        ):
-            raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if user is None:
-            raise NoResultFound
-        return user
-
-    def update_user(self, user_id: int, **kwargs) -> None:
-        """Update a user"""
-        user = self.find_user_by(id=user_id)
-        for key, value in kwargs.items():
-            setattr(user, key, value)
-        self._session.commit()
